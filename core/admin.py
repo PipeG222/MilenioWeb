@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser, Cliente, FormatoFumigacion, Agenda
+from .models import CustomUser, Cliente, FormatoFumigacion, Agenda, SolicitudCita
 
 class CustomUserAdmin(UserAdmin):
     list_display = ('username', 'email', 'first_name', 'last_name', 'role', 'is_staff')
@@ -36,7 +36,15 @@ class AgendaAdmin(admin.ModelAdmin):
     search_fields = ('trabajador__username', 'formato__cliente__nombre')
     ordering = ('fecha',)
 
+class SolicitudCitaAdmin(admin.ModelAdmin):
+    list_display = ('nombre', 'telefono', 'email', 'tipo_servicio', 'estado', 'fecha_solicitud')
+    list_filter = ('estado', 'tipo_servicio', 'fecha_solicitud')
+    search_fields = ('nombre', 'email', 'telefono')
+    ordering = ('-fecha_solicitud',)
+    readonly_fields = ('fecha_solicitud',)
+
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Cliente, ClienteAdmin)
 admin.site.register(FormatoFumigacion, FormatoFumigacionAdmin)
 admin.site.register(Agenda, AgendaAdmin)
+admin.site.register(SolicitudCita, SolicitudCitaAdmin)

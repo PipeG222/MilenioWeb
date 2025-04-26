@@ -1,0 +1,79 @@
+{% extends 'public_web/base.html' %}
+
+{% block title %}Nosotros | Milenio Fumigaciones{% endblock %}
+
+{% block content %}
+<div class="row mb-5">
+    <div class="col-md-12">
+        <h1 class="text-center mb-4">Sobre Nosotros</h1>
+        <p class="lead text-center">Somos una empresa líder en servicios de fumigación y control de plagas</p>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-6 mb-4">
+        <div class="card h-100 shadow">
+            <div class="card-body">
+                <h3 class="card-title">Nuestra Historia</h3>
+                <p class="card-text">Milenio Fumigaciones fue fundada en 2010 con la misión de proporcionar servicios profesionales de control de plagas a hogares y empresas.</p>
+                <p class="card-text">A lo largo de estos años, hemos crecido hasta convertirnos en un referente en el sector, manteniendo siempre nuestro compromiso con la calidad y la satisfacción del cliente.</p>
+                <p class="card-text">Contamos con un equipo de técnicos especializados y certificados, equipados con la última tecnología y productos de primera calidad para garantizar los mejores resultados.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card h-100 shadow">
+            <div class="card-body">
+                <h3 class="card-title">Nuestra Misión y Valores</h3>
+                <p class="card-text"><strong>Misión:</strong> Proporcionar soluciones efectivas y seguras para el control de plagas, garantizando la salud y bienestar de nuestros clientes.</p>
+                <p class="card-text"><strong>Visión:</strong> Ser reconocidos como líderes en el sector del control de plagas, innovando constantemente y ofreciendo servicios de la más alta calidad.</p>
+                <p class="card-text"><strong>Valores:</strong></p>
+                <ul>
+                    <li>Compromiso con la calidad y seguridad</li>
+                    <li>Respeto por el medio ambiente</li>
+                    <li>Profesionalismo y ética</li>
+                    <li>Atención personalizada</li>
+                    <li>Mejora continua</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-12">
+        <div class="card shadow">
+            <div class="card-body">
+                <h3 class="card-title text-center mb-4">Nuestro Equipo</h3>
+                <div class="row">
+                    <div class="col-md-4 text-center mb-4">
+                        <img src="https://via.placeholder.com/150" class="rounded-circle mb-3" alt="Director">
+                        <h5>Carlos Méndez</h5>
+                        <p class="text-muted">Director General</p>
+                    </div>
+                    <div class="col-md-4 text-center mb-4">
+                        <img src="https://via.placeholder.com/150" class="rounded-circle mb-3" alt="Coordinador">
+                        <h5>Ana García</h5>
+                        <p class="text-muted">Coordinadora de Operaciones</p>
+                    </div>
+                    <div class="col-md-4 text-center mb-4">
+                        <img src="https://via.placeholder.com/150" class="rounded-circle mb-3" alt="Técnico">
+                        <h5>Miguel Torres</h5>
+                        <p class="text-muted">Técnico Especialista</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 text-center">
+        <h2 class="mb-4">¿Quiere conocer más sobre nuestros servicios?</h2>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="{% url 'public_web:servicios' %}" class="btn btn-primary btn-lg">Ver Servicios</a>
+            <a href="{% url 'public_web:contacto' %}" class="btn btn-outline-primary btn-lg">Contactar</a>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,106 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="mb-4">Sobre Nosotros</h1>
+                <p class="lead">Conoce más sobre Milenio Fumigaciones y nuestro compromiso con la excelencia en el control de plagas.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <img src="https://via.placeholder.com/600x400/3498db/FFFFFF?text=Nuestra+Historia" class="img-fluid rounded shadow" alt="Nuestra Historia">
+            </div>
+            <div class="col-lg-6">
+                <h2 class="fw-bold mb-4">Nuestra Historia</h2>
+                <p class="mb-4">Milenio Fumigaciones nació con la misión de proporcionar servicios de control de plagas profesionales y eficaces. Desde nuestros inicios, nos hemos dedicado a desarrollar técnicas innovadoras y utilizar productos de la más alta calidad para garantizar la satisfacción de nuestros clientes.</p>
+                <p>Con años de experiencia en el mercado, hemos construido una sólida reputación basada en la confianza, la eficiencia y el compromiso con el bienestar de las familias y negocios que atendemos.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mission and Vision Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <div class="card h-100 border-0 shadow">
+                    <div class="card-body p-5">
+                        <h3 class="fw-bold mb-4">Nuestra Misión</h3>
+                        <p>Proporcionar servicios de fumigación y control de plagas de la más alta calidad, garantizando entornos saludables y seguros para nuestros clientes, mientras utilizamos prácticas respetuosas con el medio ambiente.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card h-100 border-0 shadow">
+                    <div class="card-body p-5">
+                        <h3 class="fw-bold mb-4">Nuestra Visión</h3>
+                        <p>Ser la empresa líder en el control de plagas, reconocida por su excelencia en el servicio, innovación constante y contribución a un entorno más saludable para las comunidades que servimos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Nuestro Equipo</h2>
+            <p class="text-muted">Profesionales capacitados y dedicados a brindar el mejor servicio</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card border-0 shadow">
+                    <img src="https://via.placeholder.com/300x300/3498db/FFFFFF?text=Director" class="card-img-top" alt="Director Ejecutivo">
+                    <div class="card-body text-center p-4">
+                        <h5 class="fw-bold">Carlos Ramírez</h5>
+                        <p class="text-muted">Director Ejecutivo</p>
+                        <p class="small">Con más de 15 años de experiencia en el sector, lidera nuestra empresa con visión innovadora y compromiso con la excelencia.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 shadow">
+                    <img src="https://via.placeholder.com/300x300/2ecc71/FFFFFF?text=Técnico" class="card-img-top" alt="Jefe Técnico">
+                    <div class="card-body text-center p-4">
+                        <h5 class="fw-bold">Laura González</h5>
+                        <p class="text-muted">Jefa Técnica</p>
+                        <p class="small">Especialista en entomología aplicada, supervisa todos nuestros procedimientos técnicos para garantizar resultados efectivos.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 shadow">
+                    <img src="https://via.placeholder.com/300x300/e74c3c/FFFFFF?text=Atención" class="card-img-top" alt="Atención al Cliente">
+                    <div class="card-body text-center p-4">
+                        <h5 class="fw-bold">Miguel Torres</h5>
+                        <p class="text-muted">Gerente de Atención al Cliente</p>
+                        <p class="small">Dedicado a garantizar que cada cliente reciba un servicio personalizado y de la más alta calidad en cada interacción.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5 bg-primary text-white">
+    <div class="container text-center">
+        <h2 class="fw-bold mb-4">¿Listo para un hogar libre de plagas?</h2>
+        <p class="lead mb-4">Contáctenos hoy mismo para una evaluación gratuita y descubra cómo podemos ayudarle.</p>
+        <a href="{% url 'contact' %}" class="btn btn-light btn-lg px-5">Contáctenos</a>
+    </div>
+</section>
+{% endblock %} 

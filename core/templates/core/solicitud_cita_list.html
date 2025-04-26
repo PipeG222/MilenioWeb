@@ -1,0 +1,119 @@
+{% extends 'core/base_admin.html' %}
+
+{% block title %}Solicitudes de Citas - Milenio Fumigaciones{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3">Solicitudes de Citas</h1>
+    </div>
+
+    <div class="card shadow mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Solicitudes Pendientes</h6>
+            <div>
+                <span class="badge bg-primary me-2">Total: {{ solicitudes|length }}</span>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Nombre</th>
+                            <th>Teléfono</th>
+                            <th>Email</th>
+                            <th>Tipo de Servicio</th>
+                            <th>Fecha Preferencia</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for solicitud in solicitudes %}
+                        <tr>
+                            <td>{{ solicitud.fecha_solicitud|date:"d/m/Y H:i" }}</td>
+                            <td>{{ solicitud.nombre }}</td>
+                            <td>{{ solicitud.telefono }}</td>
+                            <td>{{ solicitud.email }}</td>
+                            <td>{{ solicitud.get_tipo_servicio_display }}</td>
+                            <td>{% if solicitud.fecha_preferencia %}{{ solicitud.fecha_preferencia|date:"d/m/Y" }}{% else %}No especificada{% endif %}</td>
+                            <td>
+                                <span class="badge {% if solicitud.estado == 'pendiente' %}bg-warning{% elif solicitud.estado == 'contactado' %}bg-info{% elif solicitud.estado == 'agendado' %}bg-success{% else %}bg-danger{% endif %}">
+                                    {{ solicitud.get_estado_display }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a href="{% url 'solicitud-update' solicitud.pk %}" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#detalleModal{{ solicitud.pk }}">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- Modal de Detalle -->
+                        <div class="modal fade" id="detalleModal{{ solicitud.pk }}" tabindex="-1" aria-labelledby="detalleModalLabel{{ solicitud.pk }}" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="detalleModalLabel{{ solicitud.pk }}">Detalles de la Solicitud</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <h6 class="fw-bold">Nombre</h6>
+                                            <p>{{ solicitud.nombre }}</p>
+                                        </div>
+                                        <div class="mb-3">
+                                            <h6 class="fw-bold">Contacto</h6>
+                                            <p>Tel: {{ solicitud.telefono }}<br>Email: {{ solicitud.email }}</p>
+                                        </div>
+                                        <div class="mb-3">
+                                            <h6 class="fw-bold">Dirección</h6>
+                                            <p>{{ solicitud.direccion }}</p>
+                                        </div>
+                                        <div class="mb-3">
+                                            <h6 class="fw-bold">Servicio Solicitado</h6>
+                                            <p>{{ solicitud.get_tipo_servicio_display }}</p>
+                                        </div>
+                                        <div class="mb-3">
+                                            <h6 class="fw-bold">Fecha Preferencia</h6>
+                                            <p>{% if solicitud.fecha_preferencia %}{{ solicitud.fecha_preferencia|date:"d/m/Y" }}{% else %}No especificada{% endif %}</p>
+                                        </div>
+                                        <div class="mb-3">
+                                            <h6 class="fw-bold">Mensaje</h6>
+                                            <p>{{ solicitud.mensaje }}</p>
+                                        </div>
+                                        <div class="mb-3">
+                                            <h6 class="fw-bold">Estado Actual</h6>
+                                            <p>
+                                                <span class="badge {% if solicitud.estado == 'pendiente' %}bg-warning{% elif solicitud.estado == 'contactado' %}bg-info{% elif solicitud.estado == 'agendado' %}bg-success{% else %}bg-danger{% endif %}">
+                                                    {{ solicitud.get_estado_display }}
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <a href="{% url 'solicitud-update' solicitud.pk %}" class="btn btn-primary">Actualizar Estado</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <tr>
+                            <td colspan="8" class="text-center">No hay solicitudes pendientes</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

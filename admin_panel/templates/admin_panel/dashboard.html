@@ -1,0 +1,129 @@
+{% extends 'admin_panel/base.html' %}
+
+{% block title %}Dashboard | Milenio Fumigaciones{% endblock %}
+
+{% block header_title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-4 mb-3">
+        <div class="card bg-primary text-white h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5 class="card-title">Usuarios</h5>
+                        <h2 class="mb-0">{{ total_usuarios }}</h2>
+                    </div>
+                    <div>
+                        <i class="fas fa-users fa-3x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-transparent border-0">
+                <a href="{% url 'admin_panel:usuario_list' %}" class="text-white text-decoration-none">
+                    Ver detalles <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card bg-success text-white h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5 class="card-title">Empleados</h5>
+                        <h2 class="mb-0">{{ total_empleados }}</h2>
+                    </div>
+                    <div>
+                        <i class="fas fa-user-tie fa-3x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-transparent border-0">
+                <a href="{% url 'admin_panel:empleado_list' %}" class="text-white text-decoration-none">
+                    Ver detalles <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card bg-warning text-dark h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h5 class="card-title">Órdenes</h5>
+                        <h2 class="mb-0">{{ total_ordenes }}</h2>
+                    </div>
+                    <div>
+                        <i class="fas fa-clipboard-list fa-3x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-transparent border-0">
+                <a href="{% url 'admin_panel:orden_list' %}" class="text-dark text-decoration-none">
+                    Ver detalles <i class="fas fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">Órdenes Recientes</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Cliente</th>
+                                <th>Empleado</th>
+                                <th>Fecha</th>
+                                <th>Tipo de Servicio</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for orden in ordenes_recientes %}
+                            <tr>
+                                <td>{{ orden.id }}</td>
+                                <td>{{ orden.usuario.nombre }}</td>
+                                <td>{{ orden.empleado.nombre }}</td>
+                                <td>{{ orden.fecha_inicio }}</td>
+                                <td>{{ orden.tipo_servicio }}</td>
+                                <td>
+                                    {% if orden.estado_envio == 'completado' %}
+                                    <span class="badge bg-success">Completado</span>
+                                    {% elif orden.estado_envio == 'pendiente' %}
+                                    <span class="badge bg-warning text-dark">Pendiente</span>
+                                    {% else %}
+                                    <span class="badge bg-secondary">{{ orden.estado_envio }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'admin_panel:orden_detail' orden.id %}" class="btn btn-sm btn-info">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="7" class="text-center">No hay órdenes disponibles.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer bg-light">
+                <a href="{% url 'admin_panel:orden_list' %}" class="btn btn-primary">Ver todas las órdenes</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

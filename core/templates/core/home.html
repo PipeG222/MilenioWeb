@@ -1,59 +1,166 @@
 {% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-<div class="container">
-    <div class="row align-items-center min-vh-100">
-        <div class="col-lg-6">
-            <h1 class="display-4 mb-4">Milenio Fumigaciones</h1>
-            <p class="lead mb-4">Expertos en control de plagas y fumigación profesional. Protegemos su hogar y negocio con soluciones efectivas y seguras.</p>
-            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-                {% if user.is_authenticated %}
-                    <a href="{% url 'dashboard' %}" class="btn btn-primary btn-lg px-4 me-md-2">Ir al Dashboard</a>
-                {% else %}
-                    <a href="{% url 'login' %}" class="btn btn-primary btn-lg px-4 me-md-2">Iniciar Sesión</a>
-                {% endif %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="mb-4">Expertos en Control de Plagas</h1>
+                <p class="lead mb-4">Protegemos su hogar y negocio con soluciones efectivas y seguras para el control de plagas. Servicio profesional garantizado.</p>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                    <a href="#solicitar-cita" class="btn btn-primary btn-lg px-4 me-md-2">Solicitar Cita</a>
+                    <a href="{% url 'services' %}" class="btn btn-outline-light btn-lg px-4">Nuestros Servicios</a>
+                </div>
             </div>
         </div>
-        <div class="col-lg-6">
-            <div class="row g-4">
-                <div class="col-md-6">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <i class="bi bi-shield-check text-primary fs-1"></i>
-                            <h5 class="card-title mt-3">Servicio Profesional</h5>
-                            <p class="card-text">Personal capacitado y productos de alta calidad para garantizar resultados óptimos.</p>
-                        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">¿Por qué elegirnos?</h2>
+            <p class="text-muted">Ofrecemos servicios de fumigación de calidad superior</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card">
+                    <i class="bi bi-shield-check"></i>
+                    <h5>Servicio Profesional</h5>
+                    <p>Personal capacitado y productos de alta calidad para garantizar resultados óptimos.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card">
+                    <i class="bi bi-clock-history"></i>
+                    <h5>Atención Inmediata</h5>
+                    <p>Respuesta rápida y eficiente para atender sus necesidades de fumigación.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card">
+                    <i class="bi bi-check2-circle"></i>
+                    <h5>Garantía de Calidad</h5>
+                    <p>Satisfacción garantizada en todos nuestros servicios de fumigación.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card">
+                    <i class="bi bi-geo-alt"></i>
+                    <h5>Cobertura Amplia</h5>
+                    <p>Servicio disponible en toda la ciudad y áreas circundantes.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Preview Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Nuestros Servicios</h2>
+            <p class="text-muted">Soluciones efectivas para todo tipo de plagas</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="service-card card">
+                    <img src="https://via.placeholder.com/500x300/3498db/FFFFFF?text=Fumigación+General" class="card-img-top" alt="Fumigación General">
+                    <div class="card-body">
+                        <h5>Fumigación General</h5>
+                        <p>Eliminación de todo tipo de plagas en hogares y negocios con productos de alta calidad.</p>
+                        <a href="{% url 'services' %}" class="btn btn-outline-primary">Más información</a>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <i class="bi bi-clock-history text-primary fs-1"></i>
-                            <h5 class="card-title mt-3">Atención Inmediata</h5>
-                            <p class="card-text">Respuesta rápida y eficiente para atender sus necesidades de fumigación.</p>
-                        </div>
+            </div>
+            <div class="col-md-4">
+                <div class="service-card card">
+                    <img src="https://via.placeholder.com/500x300/2ecc71/FFFFFF?text=Control+de+Plagas" class="card-img-top" alt="Control de Plagas">
+                    <div class="card-body">
+                        <h5>Control de Plagas</h5>
+                        <p>Tratamientos especializados para la prevención y control de plagas persistentes.</p>
+                        <a href="{% url 'services' %}" class="btn btn-outline-primary">Más información</a>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <i class="bi bi-check2-circle text-primary fs-1"></i>
-                            <h5 class="card-title mt-3">Garantía de Calidad</h5>
-                            <p class="card-text">Satisfacción garantizada en todos nuestros servicios de fumigación.</p>
-                        </div>
+            </div>
+            <div class="col-md-4">
+                <div class="service-card card">
+                    <img src="https://via.placeholder.com/500x300/e74c3c/FFFFFF?text=Desinfección" class="card-img-top" alt="Desinfección">
+                    <div class="card-body">
+                        <h5>Desinfección</h5>
+                        <p>Servicio de desinfección profesional para espacios limpios y libres de patógenos.</p>
+                        <a href="{% url 'services' %}" class="btn btn-outline-primary">Más información</a>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <i class="bi bi-geo-alt text-primary fs-1"></i>
-                            <h5 class="card-title mt-3">Cobertura Amplia</h5>
-                            <p class="card-text">Servicio disponible en toda la ciudad y áreas circundantes.</p>
-                        </div>
+            </div>
+        </div>
+        <div class="text-center mt-5">
+            <a href="{% url 'services' %}" class="btn btn-primary btn-lg">Ver todos los servicios</a>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Form Section -->
+<section class="py-5" id="solicitar-cita">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h2 class="fw-bold mb-4">Solicite una Cita</h2>
+                <p class="mb-4">Complete el formulario y nos pondremos en contacto con usted lo antes posible para coordinar el servicio de fumigación que necesita.</p>
+                <div class="mb-4">
+                    <h5><i class="bi bi-telephone-fill me-2 text-primary"></i> Llámenos</h5>
+                    <p class="ms-4">(123) 456-7890</p>
+                </div>
+                <div class="mb-4">
+                    <h5><i class="bi bi-envelope-fill me-2 text-primary"></i> Escríbanos</h5>
+                    <p class="ms-4">info@mileniofumigaciones.com</p>
+                </div>
+                <div>
+                    <h5><i class="bi bi-geo-alt-fill me-2 text-primary"></i> Visítenos</h5>
+                    <p class="ms-4">Av. Principal #123, Ciudad</p>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card shadow">
+                    <div class="card-body p-4">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    {{ form.nombre|as_crispy_field }}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    {{ form.telefono|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                {{ form.email|as_crispy_field }}
+                            </div>
+                            <div class="mb-3">
+                                {{ form.direccion|as_crispy_field }}
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    {{ form.tipo_servicio|as_crispy_field }}
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    {{ form.fecha_preferencia|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                {{ form.mensaje|as_crispy_field }}
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">Enviar Solicitud</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 {% endblock %} 

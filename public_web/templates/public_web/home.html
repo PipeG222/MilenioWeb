@@ -1,0 +1,84 @@
+{% extends 'public_web/base.html' %}
+
+{% block title %}Inicio | Milenio Fumigaciones{% endblock %}
+
+{% block content %}
+<div class="row mb-5">
+    <div class="col-md-12">
+        <div class="bg-dark text-white p-5 rounded shadow">
+            <div class="container">
+                <h1 class="display-4">Milenio Fumigaciones</h1>
+                <p class="lead">Soluciones efectivas para el control de plagas con productos especializados y personal profesional.</p>
+                <hr class="my-4">
+                <p>Ofrecemos servicios de fumigación, desinfección y control de plagas para hogares, empresas e industrias.</p>
+                <a class="btn btn-primary btn-lg" href="{% url 'public_web:contacto' %}" role="button">Contactar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-12">
+        <h2 class="text-center mb-4">Nuestros Servicios</h2>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="fas fa-bug fa-3x mb-3 text-primary"></i>
+                <h5 class="card-title">Control de Insectos</h5>
+                <p class="card-text">Eliminamos todo tipo de insectos como cucarachas, hormigas, mosquitos y más.</p>
+            </div>
+            <div class="card-footer bg-transparent border-0 text-center">
+                <a href="{% url 'public_web:servicios' %}" class="btn btn-outline-primary">Más información</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="fas fa-spray-can fa-3x mb-3 text-primary"></i>
+                <h5 class="card-title">Fumigación</h5>
+                <p class="card-text">Servicio profesional de fumigación para eliminar plagas en su hogar o negocio.</p>
+            </div>
+            <div class="card-footer bg-transparent border-0 text-center">
+                <a href="{% url 'public_web:servicios' %}" class="btn btn-outline-primary">Más información</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+                <i class="fas fa-shield-virus fa-3x mb-3 text-primary"></i>
+                <h5 class="card-title">Desinfección</h5>
+                <p class="card-text">Desinfección profunda de espacios para garantizar ambientes libres de virus y bacterias.</p>
+            </div>
+            <div class="card-footer bg-transparent border-0 text-center">
+                <a href="{% url 'public_web:servicios' %}" class="btn btn-outline-primary">Más información</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-12">
+        <h2 class="text-center mb-4">Tipos de Insectos</h2>
+    </div>
+    {% for tipo in tipos_insectos %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">{{ tipo.descripcion }}</h5>
+                <p class="card-text">{{ tipo.abreviado|default:"" }}</p>
+            </div>
+            <div class="card-footer bg-transparent border-0">
+                <a href="{% url 'public_web:insectos_list' %}" class="btn btn-outline-primary">Ver insectos</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-md-12">
+        <p class="text-center">No hay tipos de insectos disponibles.</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %} 

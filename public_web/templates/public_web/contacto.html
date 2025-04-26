@@ -1,0 +1,101 @@
+{% extends 'public_web/base.html' %}
+
+{% block title %}Contacto | Milenio Fumigaciones{% endblock %}
+
+{% block content %}
+<div class="row mb-5">
+    <div class="col-md-12">
+        <h1 class="text-center mb-4">Contacto</h1>
+        <p class="lead text-center">Estamos aquí para resolver todas sus dudas y atender sus solicitudes.</p>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-6 mb-4">
+        <div class="card shadow h-100">
+            <div class="card-body">
+                <h3 class="card-title mb-4">Formulario de Contacto</h3>
+                <form>
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre completo</label>
+                        <input type="text" class="form-control" id="nombre" placeholder="Ingrese su nombre">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Correo electrónico</label>
+                        <input type="email" class="form-control" id="email" placeholder="Ingrese su correo">
+                    </div>
+                    <div class="mb-3">
+                        <label for="telefono" class="form-label">Teléfono</label>
+                        <input type="tel" class="form-control" id="telefono" placeholder="Ingrese su teléfono">
+                    </div>
+                    <div class="mb-3">
+                        <label for="servicio" class="form-label">Servicio de interés</label>
+                        <select class="form-select" id="servicio">
+                            <option selected>Seleccione un servicio</option>
+                            <option value="fumigacion">Fumigación</option>
+                            <option value="control_insectos">Control de Insectos</option>
+                            <option value="desinfeccion">Desinfección</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="mensaje" class="form-label">Mensaje</label>
+                        <textarea class="form-control" id="mensaje" rows="4" placeholder="Escriba su mensaje aquí"></textarea>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 mb-4">
+        <div class="card shadow h-100">
+            <div class="card-body">
+                <h3 class="card-title mb-4">Información de Contacto</h3>
+                <div class="mb-4">
+                    <h5><i class="fas fa-map-marker-alt me-2 text-primary"></i> Dirección</h5>
+                    <p class="ms-4">Av. Principal #123, Col. Centro<br>Ciudad de México, CP 01234</p>
+                </div>
+                <div class="mb-4">
+                    <h5><i class="fas fa-phone me-2 text-primary"></i> Teléfonos</h5>
+                    <p class="ms-4">
+                        +52 (55) 1234-5678<br>
+                        +52 (55) 8765-4321
+                    </p>
+                </div>
+                <div class="mb-4">
+                    <h5><i class="fas fa-envelope me-2 text-primary"></i> Correo Electrónico</h5>
+                    <p class="ms-4">info@mileniofumigaciones.com<br>ventas@mileniofumigaciones.com</p>
+                </div>
+                <div class="mb-4">
+                    <h5><i class="fas fa-clock me-2 text-primary"></i> Horario de Atención</h5>
+                    <p class="ms-4">Lunes a Viernes: 9:00 AM - 6:00 PM<br>Sábados: 9:00 AM - 2:00 PM</p>
+                </div>
+                <div class="mb-4">
+                    <h5><i class="fas fa-share-alt me-2 text-primary"></i> Redes Sociales</h5>
+                    <div class="ms-4">
+                        <a href="#" class="btn btn-outline-primary me-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="btn btn-outline-primary me-2"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="btn btn-outline-primary me-2"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="btn btn-outline-primary me-2"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-12">
+        <div class="card shadow">
+            <div class="card-body">
+                <h3 class="card-title mb-4 text-center">Ubicación</h3>
+                <div class="ratio ratio-16x9">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3762.6583809283716!2d-99.16305612412554!3d19.427021340257765!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1ff35f5bd1a11%3A0x6c366f0e2de02ff7!2sZocalo%2C%20Centro%20Hist%C3%B3rico%20de%20la%20Cdad.%20de%20M%C3%A9xico%2C%20Centro%2C%20Ciudad%20de%20M%C3%A9xico%2C%20CDMX!5e0!3m2!1ses-419!2smx!4v1715022461972!5m2!1ses-419!2smx" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
