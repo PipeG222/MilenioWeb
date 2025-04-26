@@ -1,0 +1,119 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="h3 mb-4">Mi Panel de Trabajo</h1>
+    
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Mis Formatos</h5>
+                    <h2 class="card-text">{{ formatos|length }}</h2>
+                    <a href="#formatos" class="btn btn-primary">Ver Formatos</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Próximas Agendas</h5>
+                    <h2 class="card-text">{{ agendas|length }}</h2>
+                    <a href="#agendas" class="btn btn-primary">Ver Agenda</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">Próximas Visitas</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Cliente</th>
+                                    <th>Tipo de Servicio</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for agenda in agendas %}
+                                <tr>
+                                    <td>{{ agenda.fecha|date:"d/m/Y H:i" }}</td>
+                                    <td>{{ agenda.formato.cliente.nombre }}</td>
+                                    <td>{{ agenda.formato.tipo_servicio }}</td>
+                                    <td>
+                                        <span class="badge {% if agenda.estado == 'programado' %}bg-warning{% elif agenda.estado == 'completado' %}bg-success{% elif agenda.estado == 'cancelado' %}bg-danger{% else %}bg-info{% endif %}">
+                                            {{ agenda.get_estado_display }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" class="text-center">No hay visitas programadas</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">Mis Formatos de Fumigación</h5>
+                    <a href="{% url 'formato-create' %}" class="btn btn-primary btn-sm">
+                        <i class="bi bi-plus-lg"></i> Nuevo Formato
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Cliente</th>
+                                    <th>Tipo de Servicio</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for formato in formatos %}
+                                <tr>
+                                    <td>{{ formato.fecha_servicio|date:"d/m/Y H:i" }}</td>
+                                    <td>{{ formato.cliente.nombre }}</td>
+                                    <td>{{ formato.tipo_servicio }}</td>
+                                    <td>
+                                        <span class="badge {% if formato.estado == 'pendiente' %}bg-warning{% elif formato.estado == 'aprobado' %}bg-success{% elif formato.estado == 'rechazado' %}bg-danger{% else %}bg-info{% endif %}">
+                                            {{ formato.get_estado_display }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'formato-update' formato.pk %}" class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="5" class="text-center">No hay formatos registrados</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

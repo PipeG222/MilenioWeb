@@ -1,0 +1,49 @@
+{% extends 'core/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-8 col-lg-6 mx-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Nueva Agenda</h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="formato" class="form-label">Formato de Fumigación</label>
+                            <select name="formato" id="formato" class="form-select" required>
+                                <option value="">Seleccione un formato...</option>
+                                {% for formato in formatos %}
+                                    <option value="{{ formato.id }}">
+                                        {{ formato.cliente.nombre }} - {{ formato.tipo_servicio }} ({{ formato.fecha_servicio|date:"d/m/Y" }})
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="trabajador" class="form-label">Trabajador</label>
+                            <select name="trabajador" id="trabajador" class="form-select" required>
+                                <option value="">Seleccione un trabajador...</option>
+                                {% for trabajador in trabajadores %}
+                                    <option value="{{ trabajador.id }}">{{ trabajador.get_full_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="fecha" class="form-label">Fecha y Hora</label>
+                            <input type="datetime-local" name="fecha" id="fecha" class="form-control" required>
+                        </div>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary me-md-2">Cancelar</a>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
