@@ -76,7 +76,7 @@ LANGUAGE_CODE = 'es-co'
 TIME_ZONE = 'America/Bogota'
 USE_I18N = True
 USE_L10N = True
-USE_TZ = False
+USE_TZ = True
 
 # Archivos estáticos y media
 STATIC_URL = '/static/'
@@ -89,7 +89,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # Login/logout
 LOGIN_URL = '/admin/login/'
 LOGIN_REDIRECT_URL = '/admin/'
-LOGOUT_REDIRECT_URL = '/admin/login/'
+LOGOUT_REDIRECT_URL = "/"
 
 
 # Caché para sesiones
