@@ -19,7 +19,7 @@ class Cliente(models.Model):
     nombre_contacto = models.CharField(max_length=150)
     sede = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
-    id_tipo = models.IntegerField(null=True, blank=True)  # puedes convertirlo luego en FK si hay tabla TipoCliente
+    id_tipo = models.ForeignKey("ordenes.TipoEmpresa", on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return f"{self.nombre} - {self.NIT}"
