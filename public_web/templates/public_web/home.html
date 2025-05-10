@@ -1,84 +1,230 @@
 {% extends 'public_web/base.html' %}
+{% load static %}
 
 {% block title %}Inicio | Milenio Fumigaciones{% endblock %}
 
 {% block content %}
-<div class="row mb-5">
-    <div class="col-md-12">
-        <div class="bg-dark text-white p-5 rounded shadow">
-            <div class="container">
-                <h1 class="display-4">Milenio Fumigaciones</h1>
-                <p class="lead">Soluciones efectivas para el control de plagas con productos especializados y personal profesional.</p>
-                <hr class="my-4">
-                <p>Ofrecemos servicios de fumigación, desinfección y control de plagas para hogares, empresas e industrias.</p>
-                <a class="btn btn-primary btn-lg" href="{% url 'public_web:contacto' %}" role="button">Contactar</a>
-            </div>
-        </div>
+<!-- Hero Section -->
+<section class="hero" id="home">
+    <div class="container">
+        <h1>Expertos en Fumigación y Control de Plagas</h1>
+        <p>Proteja su hogar y negocio con nuestros servicios profesionales. Garantizamos resultados efectivos y duraderos.</p>
+        <a href="#appointment" class="btn">Solicitar Cita</a>
     </div>
-</div>
+</section>
 
-<div class="row mb-5">
-    <div class="col-md-12">
-        <h2 class="text-center mb-4">Nuestros Servicios</h2>
-    </div>
-    <div class="col-md-4 mb-4">
-        <div class="card h-100 shadow-sm">
-            <div class="card-body text-center">
-                <i class="fas fa-bug fa-3x mb-3 text-primary"></i>
-                <h5 class="card-title">Control de Insectos</h5>
-                <p class="card-text">Eliminamos todo tipo de insectos como cucarachas, hormigas, mosquitos y más.</p>
+<!-- Services Section -->
+<section class="services" id="services">
+    <div class="container">
+        <h2 class="section-title">Nuestros Servicios</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">
+                    <!-- Icon placeholder -->
+                    <i class="fas fa-spider"></i>
+                </div>
+                <h3>Control de Roedores</h3>
+                <p>Eliminamos roedores de manera segura y efectiva, protegiéndole de los riesgos sanitarios que representan.</p>
             </div>
-            <div class="card-footer bg-transparent border-0 text-center">
-                <a href="{% url 'public_web:servicios' %}" class="btn btn-outline-primary">Más información</a>
+            <div class="service-card">
+                <div class="service-icon">
+                    <!-- Icon placeholder -->
+                    <i class="fas fa-bug"></i>
+                </div>
+                <h3>Control de Insectos</h3>
+                <p>Combatimos cucarachas, hormigas, moscas y otros insectos dañinos con métodos modernos y seguros.</p>
             </div>
-        </div>
-    </div>
-    <div class="col-md-4 mb-4">
-        <div class="card h-100 shadow-sm">
-            <div class="card-body text-center">
-                <i class="fas fa-spray-can fa-3x mb-3 text-primary"></i>
-                <h5 class="card-title">Fumigación</h5>
-                <p class="card-text">Servicio profesional de fumigación para eliminar plagas en su hogar o negocio.</p>
-            </div>
-            <div class="card-footer bg-transparent border-0 text-center">
-                <a href="{% url 'public_web:servicios' %}" class="btn btn-outline-primary">Más información</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4 mb-4">
-        <div class="card h-100 shadow-sm">
-            <div class="card-body text-center">
-                <i class="fas fa-shield-virus fa-3x mb-3 text-primary"></i>
-                <h5 class="card-title">Desinfección</h5>
-                <p class="card-text">Desinfección profunda de espacios para garantizar ambientes libres de virus y bacterias.</p>
-            </div>
-            <div class="card-footer bg-transparent border-0 text-center">
-                <a href="{% url 'public_web:servicios' %}" class="btn btn-outline-primary">Más información</a>
+            <div class="service-card">
+                <div class="service-icon">
+                    <!-- Icon placeholder -->
+                    <i class="fas fa-spray-can"></i>
+                </div>
+                <h3>Desinfección</h3>
+                <p>Eliminamos virus, bacterias y microorganismos patógenos de sus espacios con productos profesionales.</p>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<div class="row mb-5">
-    <div class="col-md-12">
-        <h2 class="text-center mb-4">Tipos de Insectos</h2>
+<!-- About Section -->
+<section class="about" id="about">
+    <div class="container about-container">
+        <div class="about-image">
+            <!-- Image placeholder -->
+            <img src="{% static 'images/logoMilenio.webp' %}" alt="Equipo Milenio S.A.S.">
+        </div>
+        <div class="about-content">
+            <h2>Sobre Milenio S.A.S.</h2>
+            <p>Somos una empresa líder en fumigación y control de plagas con más de 10 años de experiencia en el mercado. Nuestro equipo está conformado por técnicos certificados que utilizan métodos efectivos y seguros para el medio ambiente.</p>
+            <p>En Milenio S.A.S. nos comprometemos a brindar soluciones definitivas a problemas de plagas en hogares, empresas e industrias, garantizando la seguridad y tranquilidad de nuestros clientes.</p>
+            <a href="#contact" class="btn">Conozca Más</a>
+        </div>
     </div>
-    {% for tipo in tipos_insectos %}
-    <div class="col-md-4 mb-4">
-        <div class="card h-100 shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title">{{ tipo.descripcion }}</h5>
-                <p class="card-text">{{ tipo.abreviado|default:"" }}</p>
+</section>
+
+<!-- Appointment Section -->
+<section class="appointment" id="appointment">
+    <div class="container appointment-container">
+        <div class="appointment-content">
+            <h2>Solicite una Cita</h2>
+            <p>Programe una visita con nuestros especialistas para evaluar su situación y recibir un diagnóstico profesional sin costo.</p>
+            <p>Le ofreceremos la mejor solución adaptada a sus necesidades específicas con precios competitivos.</p>
+        </div>
+        <div class="appointment-form">
+            <form id="citaForm">
+                <div class="form-group">
+                    <label for="nombre">Nombre Completo</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input type="tel" id="telefono" name="telefono" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Correo Electrónico</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="direccion">Dirección</label>
+                    <input type="text" id="direccion" name="direccion" required>
+                </div>
+                <div class="form-group">
+                    <label for="servicio">Servicio Requerido</label>
+                    <select id="servicio" name="servicio" required>
+                        <option value="">Seleccione un servicio</option>
+                        <option value="roedores">Control de Roedores</option>
+                        <option value="insectos">Control de Insectos</option>
+                        <option value="desinfeccion">Desinfección</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="mensaje">Mensaje o Descripción del Problema</label>
+                    <textarea id="mensaje" name="mensaje" required></textarea>
+                </div>
+                <button type="submit" class="btn">Enviar Solicitud</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials" id="testimonials">
+    <div class="container">
+        <h2 class="section-title">Lo que Dicen Nuestros Clientes</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-text">
+                    <p>El servicio de Milenio S.A.S. fue excepcional. Teníamos un problema grave de cucarachas y en una sola visita lograron controlar la situación. Altamente recomendados.</p>
+                </div>
+                <div class="client-info">
+                    <div class="client-image">
+                        <!-- Client image placeholder -->
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="client-details">
+                        <h4>Carlos Mendoza</h4>
+                        <p>Cliente Residencial</p>
+                    </div>
+                </div>
             </div>
-            <div class="card-footer bg-transparent border-0">
-                <a href="{% url 'public_web:insectos_list' %}" class="btn btn-outline-primary">Ver insectos</a>
+            <div class="testimonial-card">
+                <div class="testimonial-text">
+                    <p>Contratamos a Milenio para el control preventivo de plagas en nuestro restaurante. Su profesionalismo y efectividad nos han permitido mantener nuestros estándares de higiene.</p>
+                </div>
+                <div class="client-info">
+                    <div class="client-image">
+                        <!-- Client image placeholder -->
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="client-details">
+                        <h4>Laura Gómez</h4>
+                        <p>Gerente de Restaurante</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-text">
+                    <p>Excelente servicio de desinfección para nuestra oficina. El equipo fue puntual, rápido y utilizaron productos que no dejaron olores fuertes. Volveremos a contratarlos.</p>
+                </div>
+                <div class="client-info">
+                    <div class="client-image">
+                        <!-- Client image placeholder -->
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="client-details">
+                        <h4>Ricardo Pérez</h4>
+                        <p>Administrador de Empresa</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    {% empty %}
-    <div class="col-md-12">
-        <p class="text-center">No hay tipos de insectos disponibles.</p>
+</section>
+
+<!-- Contact Section -->
+<section class="contact" id="contact">
+    <div class="container">
+        <h2 class="section-title">Contáctenos</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">📍</div>
+                    <div>
+                        <h3>Dirección</h3>
+                        <p>Calle 123 #45-67, Ciudad</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">📞</div>
+                    <div>
+                        <h3>Teléfono</h3>
+                        <p>+57 300 123 4567</p>
+                        <p>+57 1 234 5678</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">✉️</div>
+                    <div>
+                        <h3>Correo Electrónico</h3>
+                        <p>info@mileniosas.com</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">🕒</div>
+                    <div>
+                        <h3>Horario de Atención</h3>
+                        <p>Lunes a Viernes: 8:00 AM - 6:00 PM</p>
+                        <p>Sábados: 9:00 AM - 1:00 PM</p>
+                    </div>
+                </div>
+            </div>
+            <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3976.736164676211!2d-75.57010428523645!3d6.236486095490571!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e442a1a885a3937%3A0xe9b41e6fbbdf8e4d!2sCra.%2054%20%2321-23%2C%20La%20Candelaria%2C%20Medellín%2C%20Antioquia!5e0!3m2!1ses-419!2sco!4v1714553400045!5m2!1ses-419!2sco" 
+            width="600" 
+            height="450" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade"
+            class="map"
+            >
+            </iframe>
+        </div>
     </div>
-    {% endfor %}
-</div>
+</section>
+
+<script>
+    // Mobile menu toggle
+    document.querySelector('.mobile-menu').addEventListener('click', function() {
+        document.querySelector('nav ul').classList.toggle('show');
+    });
+    
+    // Form submission
+    document.getElementById('citaForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('¡Gracias por su solicitud! Nos pondremos en contacto pronto.');
+        this.reset();
+    });
+</script>
 {% endblock %} 

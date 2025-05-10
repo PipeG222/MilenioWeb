@@ -108,9 +108,9 @@ JAZZMIN_SETTINGS = {
     "site_title": "Milenio Admin",
     "site_header": "Milenio",
     "site_brand": "Milenio",
-    "site_logo": "images/logo.png",  # Coloca tu logo en static/images/logo.png
-    "login_logo": "images/logo.png",
-    "login_logo_dark": "images/logo.png",
+    "site_logo": "images/logoMilenio.webp",  # Coloca tu logo en static/images/logo.png
+    "login_logo": "images/logoMilenio.webp",
+    "login_logo_dark": "images/logoMilenio.webp",
     "welcome_sign": "Bienvenido al panel administrativo de Milenio",
     "copyright": "Milenio © 2025",
     "user_avatar": None,
