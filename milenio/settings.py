@@ -11,7 +11,7 @@ ALLOWED_HOSTS = ['*']  # Cambia esto en producción
 
 # Apps
 INSTALLED_APPS = [
-    'jazzmin',  # Debe ir primero para aplicar estilos
+    'jazzmin',  
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -19,8 +19,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-
     'public_web.apps.PublicWebConfig',
+    'usuarios',
+    'ordenes',
 ]
 
 # Middleware
@@ -117,10 +118,20 @@ JAZZMIN_SETTINGS = {
     "dark_mode_theme": "darkly",
     "custom_links": {},
     "icons": {
-        "auth": "fas fa-users-cog",
-        "auth.user": "fas fa-user",
-        "auth.Group": "fas fa-users",
+    # App usuarios
+    "usuarios": "fas fa-users",
+    "usuarios.Cliente": "fas fa-user-tie",
+    "usuarios.Empleado": "fas fa-user-cog",
+
+    # App ordenes
+    "ordenes": "fas fa-tasks",
+    "ordenes.TipoEmpresa": "fas fa-building",
+    "ordenes.Orden": "fas fa-clipboard-check",
+    "ordenes.InspeccionGeneral": "fas fa-search",
+    "ordenes.OrdenLocativos": "fas fa-tools",
+    "ordenes.DesinfeccionAmbientes": "fas fa-spray-can",
     },
+
     "default_icon_parents": "fas fa-folder",
     "default_icon_children": "fas fa-file",
     "custom_css": "css/jazzmin_custom.css",
