@@ -11,7 +11,7 @@ ALLOWED_HOSTS = ['*']  # Cambia esto en producción
 
 # Apps
 INSTALLED_APPS = [
-    'jazzmin',  # Debe ir primero para aplicar estilos
+    'jazzmin',  
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -19,8 +19,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-
     'public_web.apps.PublicWebConfig',
+    'usuarios',
+    'ordenes',
 ]
 
 # Middleware
