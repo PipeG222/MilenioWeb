@@ -1,1 +1,83 @@
-venv 
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django-specific
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.db
+db.sqlite3
+*.sqlite3
+media/
+staticfiles/
+.env
+.env.local
+
+# Ignore Django secret settings
+/secrets.json
+/config/settings_local.py
+
+# VSCode settings
+.vscode/
+
+# Virtual environment
+venv/
+ENV/
+env/
+.venv/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pytest
+.pytest_cache/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+
+# Test & build artifacts
+*.cover
+*.py,cover
+.hypothesis/
+.tox/
+dist/
+build/
+*.egg-info/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# pipenv & poetry
+Pipfile.lock
+poetry.lock
+
+# IDEs
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Node.js (if frontend build included)
+node_modules/
+npm-debug.log*
+
+
+# Fixtures cache (optional)
+*.json
+
