@@ -37,12 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core.apps.CoreConfig',
-    'common.apps.CommonConfig',
     'public_web.apps.PublicWebConfig',
-    'admin_panel.apps.AdminPanelConfig',
-    'crispy_forms',
-    'crispy_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -62,7 +57,6 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             BASE_DIR / 'public_web' / 'templates',
-            BASE_DIR / 'admin_panel' / 'templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -110,10 +104,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
+LANGUAGE_CODE = 'es-co'
 
-LANGUAGE_CODE = 'es-mx'
-
-TIME_ZONE = 'America/Mexico_City'
+TIME_ZONE = 'America/Bogota'
 
 USE_I18N = True
 
@@ -143,9 +136,5 @@ LOGIN_URL = 'login'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Configuración de crispy forms
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
-CRISPY_TEMPLATE_PACK = "bootstrap5"
 
-# Configuración de autenticación
-AUTH_USER_MODEL = 'core.CustomUser'
+
