@@ -1,43 +1,57 @@
-# ordenes/admin.py
 from django.contrib import admin
+from django.shortcuts import redirect
+from django.urls import reverse
 from .models import (
-    TipoEmpresa, Orden, InspeccionGeneral, OrdenLocativos, DesinfeccionAmbientes
+    TipoEmpresa,
+    Orden,
+    InspeccionGeneral,
+    DesinfeccionAmbientes,
+    Zona,
+    Area,
+    Material,
+    OrdenLocativos,
 )
+
+@admin.register(OrdenLocativos)
+class OrdenLocativosAdmin(admin.ModelAdmin):
+    """
+    Redirige las vistas de creación/edición al formulario personalizado en views.py
+    """
+    def add_view(self, request, form_url='', extra_context=None):
+        return redirect(reverse('ordenes:ordenlocativos_add'))
+
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        return redirect(reverse('ordenes:ordenlocativos_change', args=[object_id]))
 
 @admin.register(TipoEmpresa)
 class TipoEmpresaAdmin(admin.ModelAdmin):
     list_display = ['nombre']
 
+@admin.register(Orden)
 class OrdenAdmin(admin.ModelAdmin):
-    list_display = ['id', 'cliente', 'get_tipo_empresa', 'tipo', 'estado', 'fecha_creacion']
+    list_display = ['id', 'cliente', 'tipo', 'estado', 'fecha_creacion']
     list_filter = ['tipo', 'estado', 'fecha_creacion']
     search_fields = ['cliente__nombre']
     filter_horizontal = ['trabajadores']
-    readonly_fields = ['get_tipo_empresa']
-
-    def get_tipo_empresa(self, obj):
-        return obj.cliente.id_tipo.nombre if obj.cliente.id_tipo else "No definido"
-    get_tipo_empresa.short_description = 'Tipo de Empresa'
-
-    def save_model(self, request, obj, form, change):
-        super().save_model(request, obj, form, change)
-
-        if not change and obj.tipo == 'BENEFICIO':
-            # Solo se crean si no existían antes (nueva orden)
-            InspeccionGeneral.objects.create(orden=obj)
-            OrdenLocativos.objects.create(orden=obj)
-            DesinfeccionAmbientes.objects.create(orden=obj)
-
-admin.site.register(Orden, OrdenAdmin)
 
 @admin.register(InspeccionGeneral)
 class InspeccionGeneralAdmin(admin.ModelAdmin):
     list_display = ['orden']
 
-@admin.register(OrdenLocativos)
-class OrdenLocativosAdmin(admin.ModelAdmin):
-    list_display = ['orden']
-
 @admin.register(DesinfeccionAmbientes)
 class DesinfeccionAmbientesAdmin(admin.ModelAdmin):
     list_display = ['orden']
+
+@admin.register(Zona)
+class ZonaAdmin(admin.ModelAdmin):
+    list_display = ['nombre']
+    filter_horizontal = ['tipos_empresa']
+
+@admin.register(Area)
+class AreaAdmin(admin.ModelAdmin):
+    list_display = ['nombre', 'zona']
+    list_filter = ['zona']
+
+@admin.register(Material)
+class MaterialAdmin(admin.ModelAdmin):
+    list_display = ['nombre', 'unidad_medida']
