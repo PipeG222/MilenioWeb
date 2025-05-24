@@ -10,6 +10,8 @@ from .models import (
     Area,
     Material,
     OrdenLocativos,
+    CategoriaPlagas,
+    Plaga,
 )
 
 @admin.register(OrdenLocativos)
@@ -55,3 +57,7 @@ class AreaAdmin(admin.ModelAdmin):
 @admin.register(Material)
 class MaterialAdmin(admin.ModelAdmin):
     list_display = ['nombre', 'unidad_medida']
+
+@admin.register(Plaga)
+class PlagaAdmin(admin.ModelAdmin):
+    list_display = ['nombre', 'categoria']
