@@ -58,6 +58,10 @@ class AreaAdmin(admin.ModelAdmin):
 class MaterialAdmin(admin.ModelAdmin):
     list_display = ['nombre', 'unidad_medida']
 
+@admin.register(CategoriaPlagas)
+class CategoriaPlagasAdmin(admin.ModelAdmin):
+    list_display = ['nombre']
+
 @admin.register(Plaga)
 class PlagaAdmin(admin.ModelAdmin):
     list_display = ['nombre', 'categoria']
