@@ -22,7 +22,7 @@
       <form method="post" enctype="multipart/form-data" novalidate>
         {% csrf_token %}
 
-        <!-- Selección de Orden y Tipo de Servicio -->
+        <!-- --- Selección de Orden y Tipo de Servicio --- -->
         <div class="row g-3 mb-4">
           <div class="col-md-6">
             <label for="id_orden" class="form-label">{% trans "Orden" %}</label>
@@ -34,32 +34,83 @@
           </div>
         </div>
 
-        <!-- Zonas y Áreas en árbol -->
+                <!-- --- Zonas y Áreas (cargadas dinámicamente) --- -->
         <div class="mb-4">
           <div class="card shadow-sm">
             <div class="card-header bg-primary text-white">
               <strong>{% trans "Zonas y Áreas" %}</strong>
             </div>
             <div class="card-body p-3" id="zone-tree" style="max-height: 350px; overflow-y: auto;">
-              <!-- Árbol cargado dinámicamente -->
+              <!-- El árbol de zonas/áreas se cargará con JavaScript -->
+            </div>
+          </div>
+
+          {# Ocultamos los <select multiple> originales para que el formulario aún los reciba #}
+          <div style="display: none;">
+            {{ form.zonas }}
+            {{ form.areas }}
+          </div>
+        </div>
+
+
+        <!-- --- Materiales y Cantidades --- -->
+        <div class="row g-3 mb-4">
+          <div class="col-12">
+            <label class="form-label">{% trans "Materiales y Cantidades" %}</label>
+            <div id="materiales-container">
+              {% comment %}
+                Recorremos todos los materiales.
+                Para marcar los checkboxes y rellenar cantidades:
+                - form.initial.materiales contiene los IDs preseleccionados.
+                - uso_dict contiene { material_id: cantidad }.
+              {% endcomment %}
+              {% for material in form.fields.materiales.queryset %}
+                {% with material_id=material.id|stringformat:"s" %}
+                  <div class="form-check d-flex align-items-center mb-2">
+                    <!-- Checkbox de material -->
+                    <input
+                      type="checkbox"
+                      name="materiales"
+                      value="{{ material.id }}"
+                      id="id_material_{{ material.id }}"
+                      class="form-check-input"
+                      {% if material_id in form.initial.materiales %}checked{% endif %}
+                    >
+                    <label for="id_material_{{ material.id }}" class="form-check-label me-3">
+                      {{ material.nombre }} ({{ material.unidad_medida }})
+                    </label>
+
+                    {% comment %} Buscar cantidad guardada {% endcomment %}
+                    {% with None as cantidad_value %}
+                      {% for uso in usos %}
+                        {% if uso.material.id == material.id %}
+                          {% with uso.cantidad as cantidad_value %}{% endwith %}
+                        {% endif %}
+                      {% endfor %}
+
+                      <input
+                        type="number"
+                        name="cantidad_{{ material.id }}"
+                        id="cantidad_{{ material.id }}"
+                        class="form-control form-control-sm"
+                        style="width: 100px;"
+                        min="0"
+                        {% if cantidad_value is not None %}
+                          value="{{ cantidad_value }}"
+                        {% else %}
+                          disabled
+                        {% endif %}
+                        placeholder="{% trans 'Cantidad' %}"
+                      >
+                    {% endwith %}
+                  </div>
+                {% endwith %}
+              {% endfor %}
             </div>
           </div>
         </div>
 
-        <!-- Materiales y Cantidades -->
-        <div class="row g-3 mb-4">
-          <div class="col-md-6">
-            <label for="id_materiales" class="form-label">{% trans "Materiales" %}</label>
-            {{ form.materiales }}
-          </div>
-          <div class="col-md-6">
-            <label for="id_cantidad_material" class="form-label">{% trans "Cantidad de Material (id:cantidad)" %}</label>
-            {{ form.cantidad_material }}
-            <div class="form-text">{{ form.cantidad_material.help_text }}</div>
-          </div>
-        </div>
-
-        <!-- Observaciones y Recomendaciones -->
+        <!-- --- Observaciones y Recomendaciones --- -->
         <div class="row g-3 mb-4">
           <div class="col-12">
             <label for="id_observaciones" class="form-label">{% trans "Observaciones" %}</label>
@@ -71,7 +122,7 @@
           </div>
         </div>
 
-        <!-- Firmas y Certificado -->
+        <!-- --- Firmas y Certificado --- -->
         <div class="row g-3 mb-4">
           <div class="col-md-6">
             <label class="form-label">{% trans "Firma Operario" %}</label><br>
@@ -87,7 +138,7 @@
           </div>
         </div>
 
-        <!-- Botones -->
+        <!-- --- Botones --- -->
         <div class="d-flex justify-content-end">
           <button type="submit" class="btn btn-primary me-2">{% trans "Guardar" %}</button>
           <a href="{% url 'admin:ordenes_ordenlocativos_changelist' %}" class="btn btn-secondary">{% trans "Cancelar" %}</a>
@@ -103,65 +154,134 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // --- Cargar Zonas/Áreas dinámicamente ---
       const ordenField = document.getElementById('id_orden');
       const zoneTree = document.getElementById('zone-tree');
+      const hiddenZonas = document.querySelector('select[name="zonas"]');
+      const hiddenAreas = document.querySelector('select[name="areas"]');
 
       function loadTree(tipoId) {
         zoneTree.innerHTML = '';
+        // Reiniciar selects ocultos
+        hiddenZonas.querySelectorAll('option').forEach(opt => {
+          opt.selected = false;
+        });
+        hiddenAreas.querySelectorAll('option').forEach(opt => {
+          opt.selected = false;
+        });
+
         if (!tipoId) return;
         fetch(`{% url 'ordenes:api_zones_by_tipo' 0 %}`.replace('/0/', `/${tipoId}/`))
           .then(res => res.json())
           .then(dataZ => {
+            // Obtener listas iniciales de IDs (enteros)
+            {% if obj.pk %}
+              const zonasActuales = [{% for oz in obj.orden_zonas.all %}{{ oz.zona.id }},{% endfor %}];
+              const areasActuales = [{% for oz in obj.orden_zonas.all %}
+                {% for oa in oz.ordenlocativoarea_set.all %}{{ oa.area.id }},{% endfor %}
+              {% endfor %}];
+            {% else %}
+              const zonasActuales = [];
+              const areasActuales = [];
+            {% endif %};
+
             dataZ.zonas.forEach(z => {
               const wrapper = document.createElement('div');
               wrapper.className = 'mb-2';
 
-              // Zona label con checkbox
+              // Checkbox para zona
               const zDiv = document.createElement('div');
               zDiv.className = 'form-check';
+
               const zChk = document.createElement('input');
               zChk.type = 'checkbox';
               zChk.name = 'zonas';
               zChk.value = z.id;
               zChk.id = `zone_${z.id}`;
               zChk.className = 'form-check-input';
+
+              // Si la zona ya estaba en la orden, la marcamos
+              if (zonasActuales.includes(z.id)) {
+                zChk.checked = true;
+                // Seleccionamos la opción correspondiente en el <select hidden>
+                const optZ = hiddenZonas.querySelector(`option[value="${z.id}"]`);
+                if (optZ) optZ.selected = true;
+              }
+
               const zLbl = document.createElement('label');
               zLbl.htmlFor = zChk.id;
-              zLbl.className = 'badge bg-primary  px-2 py-1 rounded ms-2 d-inline-block';
+              zLbl.className = 'badge bg-primary px-2 py-1 rounded ms-2 d-inline-block';
               zLbl.textContent = z.nombre;
               zDiv.append(zChk, zLbl);
 
-              // Áreas
+              // Container para áreas hijas
               const areaContainer = document.createElement('div');
               areaContainer.className = 'ms-4 mt-1 ps-3 border-start border-primary bg-light rounded';
-              areaContainer.style.display = 'none';
+              areaContainer.style.display = zChk.checked ? 'block' : 'none';
 
-              zChk.addEventListener('change', () => {
-                if (zChk.checked) {
-                  if (!areaContainer.hasChildNodes()) {
-                    fetch(`{% url 'ordenes:api_areas_by_zone' 0 %}`.replace('/0/', `/${z.id}/`))
-                      .then(res => res.json())
-                      .then(dataA => {
-                        dataA.areas.forEach(a => {
-                          const aDiv = document.createElement('div');
-                          aDiv.className = 'form-check mb-1';
-                          const aChk = document.createElement('input');
-                          aChk.type = 'checkbox';
-                          aChk.name = 'areas';
-                          aChk.value = a.id;
-                          aChk.id = `area_${a.id}`;
-                          aChk.className = 'form-check-input';
-                          const aLbl = document.createElement('label');
-                          aLbl.htmlFor = aChk.id;
-                          aLbl.className = 'form-check-label ms-2';
-                          aLbl.textContent = a.nombre;
-                          aDiv.append(aChk, aLbl);
-                          areaContainer.appendChild(aDiv);
-                        });
+              // Función para cargar áreas de esta zona
+              function fetchAreas() {
+                // Limpiar container previo
+                areaContainer.innerHTML = '';
+                fetch(`{% url 'ordenes:api_areas_by_zone' 0 %}`.replace('/0/', `/${z.id}/`))
+                  .then(res => res.json())
+                  .then(dataA => {
+                    dataA.areas.forEach(a => {
+                      const aDiv = document.createElement('div');
+                      aDiv.className = 'form-check mb-1';
+
+                      const aChk = document.createElement('input');
+                      aChk.type = 'checkbox';
+                      aChk.name = 'areas';
+                      aChk.value = a.id;
+                      aChk.id = `area_${a.id}`;
+                      aChk.className = 'form-check-input';
+
+                      // Si esta área estaba en la orden, la marcamos
+                      if (areasActuales.includes(a.id)) {
+                        aChk.checked = true;
+                        // Seleccionamos la opción correspondiente en el <select hidden>
+                        const optA = hiddenAreas.querySelector(`option[value="${a.id}"]`);
+                        if (optA) optA.selected = true;
+                      }
+
+                      const aLbl = document.createElement('label');
+                      aLbl.htmlFor = aChk.id;
+                      aLbl.className = 'form-check-label ms-2';
+                      aLbl.textContent = a.nombre;
+
+                      aChk.addEventListener('change', function() {
+                        const optA = hiddenAreas.querySelector(`option[value="${a.id}"]`);
+                        if (optA) {
+                          optA.selected = this.checked;
+                        }
                       });
-                  }
+
+                      aDiv.append(aChk, aLbl);
+                      areaContainer.appendChild(aDiv);
+                    });
+                  });
+              }
+
+              // Si la zona viene preseleccionada, cargamos sus áreas de inmediato
+              if (zChk.checked) {
+                fetchAreas();
+              }
+
+              // Al hacer toggle en zona, mostrar/ocultar áreas y sincronizar select oculto
+              zChk.addEventListener('change', () => {
+                const optZ = hiddenZonas.querySelector(`option[value="${z.id}"]`);
+                if (optZ) optZ.selected = zChk.checked;
+
+                if (zChk.checked) {
+                  fetchAreas();
                   areaContainer.style.display = 'block';
                 } else {
+                  // Deseleccionar todas las áreas hijas en el select oculto
+                  areaContainer.querySelectorAll('input[name="areas"]').forEach(aChk => {
+                    const optA = hiddenAreas.querySelector(`option[value="${aChk.value}"]`);
+                    if (optA) optA.selected = false;
+                  });
                   areaContainer.style.display = 'none';
                 }
               });
@@ -173,14 +293,39 @@
       }
 
       ordenField.addEventListener('change', () => {
-        const tipoId = ordenField.options[ordenField.selectedIndex]?.getAttribute('data-tipo-id');
+        // Obtenemos data-tipo-id del <option> seleccionado
+        const selectedOpt = ordenField.options[ordenField.selectedIndex];
+        const tipoId = selectedOpt.getAttribute('data-tipo-id');
         loadTree(tipoId);
       });
 
-      if (ordenField.value) {
-        const tipoId = ordenField.options[ordenField.selectedIndex]?.getAttribute('data-tipo-id');
-        loadTree(tipoId);
-      }
+      // Precargar zonas y áreas si estamos en modo edición
+      {% if obj.pk %}
+        const tipoIdActual = {{ obj.orden.cliente.id_tipo.id }};
+        loadTree(tipoIdActual);
+      {% endif %}
+
+      // --- Activar/desactivar input de cantidad en Materiales ---
+      const materialCheckboxes = document.querySelectorAll('#materiales-container input[type="checkbox"][name="materiales"]');
+      materialCheckboxes.forEach(checkbox => {
+        const materialId = checkbox.value;
+        const qtyInput = document.getElementById('cantidad_' + materialId);
+
+        // Al iniciar, si está checked, habilitamos el input
+        if (checkbox.checked && qtyInput) {
+          qtyInput.disabled = false;
+        }
+
+        checkbox.addEventListener('change', function() {
+          if (this.checked) {
+            qtyInput.disabled = false;
+            qtyInput.focus();
+          } else {
+            qtyInput.value = '';
+            qtyInput.disabled = true;
+          }
+        });
+      });
     });
   </script>
 {% endblock %}

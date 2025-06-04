@@ -30,7 +30,7 @@ class OrdenWidget(forms.Select):
 class OrdenLocativosForm(forms.ModelForm):
     orden = forms.ModelChoiceField(
         queryset=Orden.objects.select_related('cliente__id_tipo').all(),
-        widget=OrdenWidget(attrs={'class': 'form-select'}),
+        widget=OrdenWidget(attrs={'class': 'form-select', 'id': 'id_orden'}),
         label='Orden'
     )
     zonas = forms.ModelMultipleChoiceField(
@@ -45,11 +45,12 @@ class OrdenLocativosForm(forms.ModelForm):
         widget=forms.SelectMultiple(attrs={'class': 'form-select'}),
         label='Áreas'
     )
+
     materiales = forms.ModelMultipleChoiceField(
         queryset=Material.objects.all(),
         required=False,
-        widget=forms.SelectMultiple(attrs={'class': 'form-select'}),
-        label='Materiales'
+        widget=forms.CheckboxSelectMultiple(attrs={'id': 'id_materiales'}),
+        label="Materiales"
     )
     cantidad_material = forms.CharField(
         required=False,
@@ -65,32 +66,38 @@ class OrdenLocativosForm(forms.ModelForm):
         ]
         widgets = {
             'tipo_servicio': forms.Select(attrs={'class': 'form-select'}),
-            'observaciones': forms.Textarea(attrs={'class': 'form-control', 'rows':3}),
-            'recomendaciones': forms.Textarea(attrs={'class': 'form-control', 'rows':3}),
+            'observaciones': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'recomendaciones': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Obtener tipo de empresa de la orden
+
+        # Obtener tipo de empresa de la orden (si existe instancia o dato en POST)
         tipo_id = None
         if self.instance and self.instance.pk:
             tipo = self.instance.orden.cliente.id_tipo
-            tipo_id = tipo.id if tipo else None
+            tipo_id = tipo.id if (tipo and hasattr(tipo, 'id')) else None
         elif 'orden' in self.data:
             try:
                 orden_pk = int(self.data.get('orden'))
                 orden = Orden.objects.select_related('cliente__id_tipo').get(pk=orden_pk)
                 tipo = orden.cliente.id_tipo
-                tipo_id = tipo.id if tipo else None
+                tipo_id = tipo.id if (tipo and hasattr(tipo, 'id')) else None
             except (ValueError, Orden.DoesNotExist):
                 tipo_id = None
-        # Filtrar zonas y áreas según tipo_id
+
+        # Filtrar queryset de zonas según el ManyToManyField 'tipos_empresa'
         if tipo_id:
-            self.fields['zonas'].queryset = Zona.objects.filter(tipos_empresa_id=tipo_id)
-            self.fields['areas'].queryset = Area.objects.filter(zona__tipos_empresa=tipo_id)
+            # Zona.tipos_empresa es ManyToMany, por lo que usamos __id
+            self.fields['zonas'].queryset = Zona.objects.filter(tipos_empresa__id=tipo_id)
+            # Para áreas, filtramos aquellas cuyo campo 'zona' está relacionado a una Zona
+            # que tenga el tipo de empresa indicado:
+            self.fields['areas'].queryset = Area.objects.filter(zona__tipos_empresa__id=tipo_id)
         else:
             self.fields['zonas'].queryset = Zona.objects.none()
             self.fields['areas'].queryset = Area.objects.none()
-        # Aplicar clases a restantes
+
+        # Asegurarse de que el campo 'orden' tenga el id correcto
         self.fields['orden'].widget.attrs.update({'id': 'id_orden'})
-        self.fields['materiales'].widget.attrs.update({'id': 'id_materiales'})
+        # El widget de 'materiales' ya recibió en su declaración attrs={'id': 'id_materiales'}

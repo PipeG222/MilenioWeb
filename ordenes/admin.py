@@ -1,6 +1,8 @@
+from traceback import format_tb
 from django.contrib import admin
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils.html import format_html
 from .models import (
     TipoEmpresa,
     Orden,
@@ -14,16 +16,33 @@ from .models import (
     Plaga,
 )
 
+
+
 @admin.register(OrdenLocativos)
 class OrdenLocativosAdmin(admin.ModelAdmin):
-    """
-    Redirige las vistas de creación/edición al formulario personalizado en views.py
-    """
+    # Muestra el id de la orden (a través de la relación OneToOne),
+    # el tipo de servicio y luego los botones de editar / eliminar
+    list_display = ('orden', 'tipo_servicio', 'editar_link', 'eliminar_link')
+
     def add_view(self, request, form_url='', extra_context=None):
         return redirect(reverse('ordenes:ordenlocativos_add'))
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
         return redirect(reverse('ordenes:ordenlocativos_change', args=[object_id]))
+
+    # Link “Editar” hacia tu vista personalizada de change
+    def editar_link(self, obj):
+        url = reverse('ordenes:ordenlocativos_change', args=[obj.pk])
+        return format_html('<a class="button" href="{}">Editar</a>', url)
+    editar_link.short_description = 'Editar'
+
+    # Link “Eliminar” usando la URL estándar de Django Admin;
+    # Jazzmin abrirá su modal de confirmación
+    def eliminar_link(self, obj):
+        # Si tu app_label es “ordenes” y el modelo “OrdenLocativos”:
+        url = reverse('admin:ordenes_ordenlocativos_delete', args=[obj.pk])
+        return format_html('<a class="button delete-btn" href="{}">Eliminar</a>', url)
+    eliminar_link.short_description = 'Eliminar'
 
 @admin.register(TipoEmpresa)
 class TipoEmpresaAdmin(admin.ModelAdmin):
