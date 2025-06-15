@@ -14,6 +14,7 @@ from .models import (
     OrdenLocativos,
     CategoriaPlagas,
     Plaga,
+    AspectoLocativoHigiene,
 )
 
 
@@ -84,3 +85,7 @@ class CategoriaPlagasAdmin(admin.ModelAdmin):
 @admin.register(Plaga)
 class PlagaAdmin(admin.ModelAdmin):
     list_display = ['nombre', 'categoria']
+
+@admin.register(AspectoLocativoHigiene)
+class AspectoLocativoHigieneAdmin(admin.ModelAdmin):
+    list_display = ['orden']

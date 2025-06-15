@@ -240,6 +240,36 @@ class MaterialUso(models.Model):
         verbose_name_plural = _("Materiales Usados")
 
 # Subformulario: Desinfección de Ambientes
+class AspectoLocativoHigiene(models.Model):
+    class RespuestaChoices(models.TextChoices):
+        SI = 'SI', _('Sí')
+        NO = 'NO', _('No')
+        NO_APLICA = 'NA', _('No Aplica')
+
+    orden = models.OneToOneField(Orden, on_delete=models.CASCADE, related_name='aspecto_locativo_higiene')
+    vias_acceso_cerradas = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Vías de acceso bien cerradas')
+    paredes_sin_grietas = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Estado de paredes sin grietas')
+    condiciones_orden_aseo = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Buenas condiciones de orden y aseo')
+    basuras_con_tapa = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Basuras con tapa y evacuadas permanentemente')
+    luz_puertas_menor_1cm = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Luz en puertas menor a 1 cm')
+    techos_buen_estado = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Techos en buen estado')
+    pisos_media_cana_sin_grieta = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Pisos con media caña y sin grieta')
+    ventana_proteccion_malla = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Ventana con protección malla')
+    presencia_grasa = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Presencia de grasa')
+    manejo_basuras_adecuado = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Manejo de basuras adecuado')
+    exteriores_limpios_sin_basura = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Exteriores limpios sin basuras y adecuado control de maleza')
+    estibacion_conserva_espacio = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='La estibación: conserva espacio contra la pared y permite las labores de aseo y control de plagas')
+    rejillas_desague_pisos = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Rejillas: para correcto desague de pisos')
+    paredes_pisos_limpios = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Paredes y pisos limpios y buenos')
+
+    def __str__(self):
+        return f"Aspecto Locativo e Higiene de Orden #{self.orden.id}"
+
+    class Meta:
+        verbose_name = _("Aspecto Locativo e Higiene")
+        verbose_name_plural = _("Aspectos Locativos e Higiene")
+
+
 class DesinfeccionAmbientes(models.Model):
     orden = models.OneToOneField(Orden, on_delete=models.CASCADE)
     hallazgos = models.TextField()
@@ -280,3 +310,28 @@ class InspeccionGeneral(models.Model):
     class Meta:
         verbose_name = _("Inspección General")
         verbose_name_plural = _("Inspecciones Generales")
+
+class Categoria(models.Model):
+    nombre = models.CharField(max_length=100, unique=True, verbose_name=_("Sección / Categoría"))
+    descripcion = models.TextField(blank=True,
+            null=True,
+            help_text="(opcional) Descripción breve de la sección")
+
+    class Meta:
+        verbose_name = _("Sección / Categoría")
+        verbose_name_plural = _("Secciones / Categorías")
+
+
+class ItemCategoria(models.Model):
+    categoria = models.ForeignKey('Categoria', on_delete=models.CASCADE, related_name='items', verbose_name=_("Sección / Categoría"))
+    nombre = models.CharField(max_length=100, verbose_name=_("Nombre del Item"))
+        
+    boolean_choices = (
+        ("SI", "SI"),
+        ("NO", "NO"),
+        ("NA", "N/A")
+    )
+    respuesta = models.CharField(max_length=3, choices=boolean_choices, verbose_name=_("Respuesta"))
+
+    def __str__(self):
+        return f"{self.nombre} - {self.get_respuesta_display()}"
