@@ -94,6 +94,12 @@ class OrdenLocativos(models.Model):
         max_length=20,
         choices=TIPO_SERVICIO_CHOICES
     )
+    especies = models.ManyToManyField(
+        'Plaga',
+        blank=True,
+        related_name='ordenes_locativas'
+    )
+
     zonas = models.ManyToManyField(
         Zona,
         through='OrdenLocativoZona',
@@ -144,6 +150,7 @@ class OrdenLocativoArea(models.Model):
         related_name='orden_areas',
         on_delete=models.CASCADE
     )
+    
     area = models.ForeignKey(
         Area,
         related_name='orden_areas',

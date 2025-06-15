@@ -33,6 +33,34 @@
             {{ form.tipo_servicio }}
           </div>
         </div>
+        <!-- --- Especies observadas --- -->
+        <div class="row g-3 mb-4">
+          <div class="col-12">
+            <label class="form-label">{% trans "Especies observadas" %}</label>
+            <div id="especies-container">
+              {% for especie in form.fields.especies.queryset %}
+                {% with especie_id=especie.id|stringformat:"s" %}
+                  <div class="form-check d-flex align-items-center mb-2">
+                    <!-- Checkbox de especie -->
+                    <input
+                      type="checkbox"
+                      name="especies"
+                      value="{{ especie.id }}"
+                      id="id_especie_{{ especie.id }}"
+                      class="form-check-input"
+                      {% if form.initial.especies and especie_id in form.initial.especies %}checked{% endif %}
+                    >
+                    <label for="id_especie_{{ especie.id }}" class="form-check-label ms-2">
+                      {{ especie.nombre }} ({{ especie.categoria.nombre }})
+                    </label>
+                  </div>
+                {% endwith %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+
 
                 <!-- --- Zonas y Áreas (cargadas dinámicamente) --- -->
         <div class="mb-4">

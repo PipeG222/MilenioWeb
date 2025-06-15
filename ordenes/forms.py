@@ -1,6 +1,6 @@
 from django import forms
 from django.forms.models import ModelChoiceIteratorValue
-from .models import OrdenLocativos, Zona, Area, Material, Orden
+from .models import OrdenLocativos, Zona, Area, Material, Orden, Plaga
 
 class OrdenWidget(forms.Select):
     """
@@ -32,6 +32,12 @@ class OrdenLocativosForm(forms.ModelForm):
         queryset=Orden.objects.select_related('cliente__id_tipo').all(),
         widget=OrdenWidget(attrs={'class': 'form-select', 'id': 'id_orden'}),
         label='Orden'
+    )
+    especies = forms.ModelMultipleChoiceField(
+        queryset=Plaga.objects.filter(activa=True),
+        required=False,
+        widget=forms.CheckboxSelectMultiple(attrs={'id': 'id_especies'}),
+        label="Especies observadas"
     )
     zonas = forms.ModelMultipleChoiceField(
         queryset=Zona.objects.none(),
