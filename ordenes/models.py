@@ -247,34 +247,34 @@ class MaterialUso(models.Model):
         verbose_name_plural = _("Materiales Usados")
 
 # Subformulario: Desinfección de Ambientes
-class AspectoLocativoHigiene(models.Model):
-    class RespuestaChoices(models.TextChoices):
-        SI = 'SI', _('Sí')
-        NO = 'NO', _('No')
-        NO_APLICA = 'NA', _('No Aplica')
+# class AspectoLocativoHigiene(models.Model):
+#     class RespuestaChoices(models.TextChoices):
+#         SI = 'SI', _('Sí')
+#         NO = 'NO', _('No')
+#         NO_APLICA = 'NA', _('No Aplica')
 
-    orden = models.OneToOneField(Orden, on_delete=models.CASCADE, related_name='aspecto_locativo_higiene')
-    vias_acceso_cerradas = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Vías de acceso bien cerradas')
-    paredes_sin_grietas = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Estado de paredes sin grietas')
-    condiciones_orden_aseo = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Buenas condiciones de orden y aseo')
-    basuras_con_tapa = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Basuras con tapa y evacuadas permanentemente')
-    luz_puertas_menor_1cm = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Luz en puertas menor a 1 cm')
-    techos_buen_estado = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Techos en buen estado')
-    pisos_media_cana_sin_grieta = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Pisos con media caña y sin grieta')
-    ventana_proteccion_malla = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Ventana con protección malla')
-    presencia_grasa = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Presencia de grasa')
-    manejo_basuras_adecuado = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Manejo de basuras adecuado')
-    exteriores_limpios_sin_basura = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Exteriores limpios sin basuras y adecuado control de maleza')
-    estibacion_conserva_espacio = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='La estibación: conserva espacio contra la pared y permite las labores de aseo y control de plagas')
-    rejillas_desague_pisos = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Rejillas: para correcto desague de pisos')
-    paredes_pisos_limpios = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Paredes y pisos limpios y buenos')
+#     orden = models.OneToOneField(Orden, on_delete=models.CASCADE, related_name='aspecto_locativo_higiene')
+#     vias_acceso_cerradas = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Vías de acceso bien cerradas')
+#     paredes_sin_grietas = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Estado de paredes sin grietas')
+#     condiciones_orden_aseo = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Buenas condiciones de orden y aseo')
+#     basuras_con_tapa = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Basuras con tapa y evacuadas permanentemente')
+#     luz_puertas_menor_1cm = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Luz en puertas menor a 1 cm')
+#     techos_buen_estado = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Techos en buen estado')
+#     pisos_media_cana_sin_grieta = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Pisos con media caña y sin grieta')
+#     ventana_proteccion_malla = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Ventana con protección malla')
+#     presencia_grasa = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Presencia de grasa')
+#     manejo_basuras_adecuado = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Manejo de basuras adecuado')
+#     exteriores_limpios_sin_basura = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Exteriores limpios sin basuras y adecuado control de maleza')
+#     estibacion_conserva_espacio = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='La estibación: conserva espacio contra la pared y permite las labores de aseo y control de plagas')
+#     rejillas_desague_pisos = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Rejillas: para correcto desague de pisos')
+#     paredes_pisos_limpios = models.CharField(max_length=2, choices=RespuestaChoices.choices, default=RespuestaChoices.NO_APLICA, verbose_name='Paredes y pisos limpios y buenos')
 
-    def __str__(self):
-        return f"Aspecto Locativo e Higiene de Orden #{self.orden.id}"
+#     def __str__(self):
+#         return f"Aspecto Locativo e Higiene de Orden #{self.orden.id}"
 
-    class Meta:
-        verbose_name = _("Aspecto Locativo e Higiene")
-        verbose_name_plural = _("Aspectos Locativos e Higiene")
+#     class Meta:
+#         verbose_name = _("Aspecto Locativo e Higiene")
+#         verbose_name_plural = _("Aspectos Locativos e Higiene")
 
 
 class DesinfeccionAmbientes(models.Model):
@@ -342,3 +342,166 @@ class ItemCategoria(models.Model):
 
     def __str__(self):
         return f"{self.nombre} - {self.get_respuesta_display()}"
+
+
+class TipoServicio(models.Model):
+    nombre = models.CharField(max_length=100, unique=True)
+
+    class Meta:
+        verbose_name = _("Tipo de Servicio")
+        verbose_name_plural = _("Tipos de Servicio")
+
+    def __str__(self):
+        return self.nombre
+
+
+class Higiene(models.Model):
+    nombre = models.CharField(max_length=100, unique=True)
+
+    class Meta:
+        verbose_name = _("Higiene")
+        verbose_name_plural = _("Higienes")
+
+    def __str__(self):
+        return self.nombre
+
+
+class AreaLocativa(models.Model):
+    nombre = models.CharField(max_length=100, unique=True)
+
+    class Meta:
+        verbose_name = _("Área Locativa")
+        verbose_name_plural = _("Áreas Locativas")
+
+    def __str__(self):
+        return self.nombre
+
+
+class Producto(models.Model):
+    nombre = models.CharField(max_length=100)
+    descripcion = models.TextField(blank=True)
+    ingrediente_activo = models.CharField(max_length=200)
+    dosificacion = models.CharField(max_length=100)
+    fecha_vencimiento = models.DateField()
+    ultimo_lote = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name = _("Producto")
+        verbose_name_plural = _("Productos")
+
+    def __str__(self):
+        return self.nombre
+
+
+class OrdenServicio(models.Model):
+    orden_principal = models.ForeignKey(
+        Orden,
+        on_delete=models.CASCADE,
+        related_name='servicios'
+    )
+    tipo = models.ForeignKey(
+        TipoServicio,
+        on_delete=models.SET_NULL,
+        null=True,
+        verbose_name=_("Tipo de Servicio")
+    )
+    numero_control = models.PositiveIntegerField(editable=False)
+    fechadelservicio = models.DateTimeField(editable=False)
+    especies = models.ManyToManyField(
+        Plaga,
+        blank=True,
+        related_name='ordenes_servicio',
+        verbose_name=_("Especies")
+    )
+    higiene = models.ForeignKey(
+        Higiene,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name=_("Higiene")
+    )
+    areaslocativas = models.ManyToManyField(
+        AreaLocativa,
+        blank=True,
+        related_name='ordenes_servicio',
+        verbose_name=_("Áreas Locativas")
+    )
+    zonas = models.ManyToManyField(
+        Zona,
+        through='OrdenServicioZona',
+        related_name='ordenes_servicio',
+        verbose_name=_("Zonas")
+    )
+    productos = models.ManyToManyField(
+        Producto,
+        blank=True,
+        related_name='ordenes_servicio',
+        verbose_name=_("Productos")
+    )
+    observaciones = models.TextField(blank=True, verbose_name=_("Observaciones"))
+    recomendaciones = models.TextField(blank=True, verbose_name=_("Recomendaciones"))
+    firma_operario = models.ImageField(upload_to='firmas/', blank=True, null=True, verbose_name=_("Firma Operario"))
+    firma_acompanante = models.ImageField(upload_to='firmas/', blank=True, null=True, verbose_name=_("Firma Acompañante"))
+    certificado = models.FileField(upload_to='certificados/', blank=True, null=True, verbose_name=_("Certificado"))
+
+    class Meta:
+        verbose_name = _("Orden de Servicio")
+        verbose_name_plural = _("Órdenes de Servicio")
+        unique_together = [['orden_principal', 'numero_control']]
+
+    def save(self, *args, **kwargs):
+        # Set fecha del servicio from the principal order
+        if not self.fechadelservicio:
+            self.fechadelservicio = self.orden_principal.fecha_creacion
+
+        # Incremental numero_control per client
+        if not self.numero_control:
+            cliente = self.orden_principal.cliente
+            ultima = (
+                OrdenServicio.objects
+                .filter(orden_principal__cliente=cliente)
+                .aggregate(models.Max('numero_control'))
+                ['numero_control__max']
+                or 0
+            )
+            self.numero_control = ultima + 1
+
+        super().save(*args, **kwargs)
+
+
+class OrdenServicioZona(models.Model):
+    orden_servicio = models.ForeignKey(
+        OrdenServicio,
+        on_delete=models.CASCADE,
+        related_name='zonas_servicio'
+    )
+    zona = models.ForeignKey(
+        Zona,
+        on_delete=models.CASCADE,
+        related_name='zonas_servicio'
+    )
+
+    class Meta:
+        verbose_name = _("Zona en Orden de Servicio")
+        verbose_name_plural = _("Zonas en Órdenes de Servicio")
+        unique_together = [['orden_servicio', 'zona']]
+
+    def __str__(self):
+        return f"{self.zona} en {self.orden_servicio}"
+
+# Ejemplo de uso de MaterialUso existente:
+# mat = Material.objects.get(pk=mid_int)
+# MaterialUso.objects.create(
+#     orden_servicio=orden_servicio_obj,
+#     material=mat,
+#     cantidad=cantidad
+# )
+class HigieneUso(models.Model):
+    orden_servicio = models.ForeignKey(OrdenServicio, on_delete=models.CASCADE)
+    higiene       = models.ForeignKey(Higiene, on_delete=models.CASCADE)
+    nivel         = models.CharField(max_length=10, choices=[('alto','Alto'),('medio','Medio'),('bajo','Bajo')])
+
+class EspecieUso(models.Model):
+    orden_servicio = models.ForeignKey(OrdenServicio, on_delete=models.CASCADE)
+    plaga          = models.ForeignKey(Plaga, on_delete=models.CASCADE)
+    nivel          = models.CharField(max_length=10, choices=[('alto','Alto'),('medio','Medio'),('bajo','Bajo')])

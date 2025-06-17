@@ -118,29 +118,33 @@ JAZZMIN_SETTINGS = {
     "dark_mode_theme": "darkly",
     "custom_links": {},
     "icons": {
-    # Autenticación y autorización
-    "auth": "fas fa-users-cog",
-    "auth.user": "fas fa-user-shield",
-    "auth.group": "fas fa-users",
-    
-    # App usuarios
-    "usuarios": "fas fa-users",
-    "usuarios.Cliente": "fas fa-user-tie",
-    "usuarios.Empleado": "fas fa-user-cog",
-    
-
-    # App ordenes
-    "ordenes": "fas fa-tasks",
-    "ordenes.TipoEmpresa": "fas fa-building",
-    "ordenes.Orden": "fas fa-clipboard-check",
-    "ordenes.InspeccionGeneral": "fas fa-search",
-    "ordenes.OrdenLocativos": "fas fa-tools",
-    "ordenes.DesinfeccionAmbientes": "fas fa-spray-can",
-    "ordenes.CategoriaPlagas": "fas fa-bug",
-    "ordenes.Plaga": "fas fa-bug",
-    "ordenes.Material": "fas fa-box",
-    "ordenes.Area": "fas fa-map-marker-alt",
-    "ordenes.Zona": "fas fa-map-marker-alt",
+        # Autenticación y autorización
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user-shield",
+        "auth.group": "fas fa-users",
+        
+        # App usuarios
+        "usuarios": "fas fa-users",
+        "usuarios.Cliente": "fas fa-user-tie",
+        "usuarios.Empleado": "fas fa-user-cog",
+        
+        # App ordenes
+        "ordenes": "fas fa-tasks",
+        "ordenes.TipoEmpresa": "fas fa-building",
+        "ordenes.Orden": "fas fa-clipboard-check",
+        "ordenes.InspeccionGeneral": "fas fa-search",
+        "ordenes.OrdenLocativos": "fas fa-tools",
+        "ordenes.DesinfeccionAmbientes": "fas fa-spray-can",
+        "ordenes.CategoriaPlagas": "fas fa-bug",
+        "ordenes.Plaga": "fas fa-bug",
+        "ordenes.Material": "fas fa-box",
+        "ordenes.Area": "fas fa-map-marker-alt",
+        "ordenes.Zona": "fas fa-map-marker-alt",
+        "ordenes.OrdenServicio": "fas fa-concierge-bell",
+        "ordenes.TipoServicio": "fas fa-list",
+        "ordenes.Higiene": "fas fa-toilet-paper",
+        "ordenes.AreaLocativa": "fas fa-map-marked",
+        "ordenes.Producto": "fas fa-box-open",
     },
 
     "default_icon_parents": "fas fa-folder",

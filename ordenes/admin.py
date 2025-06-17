@@ -4,6 +4,9 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.html import format_html
 from .models import (
+    AreaLocativa,
+    Higiene,
+    Producto,
     TipoEmpresa,
     Orden,
     InspeccionGeneral,
@@ -14,7 +17,8 @@ from .models import (
     OrdenLocativos,
     CategoriaPlagas,
     Plaga,
-    AspectoLocativoHigiene,
+    OrdenServicio,  # Import OrdenServicio to fix the error
+    TipoServicio,   # Import TipoServicio to fix the error
 )
 
 
@@ -86,6 +90,57 @@ class CategoriaPlagasAdmin(admin.ModelAdmin):
 class PlagaAdmin(admin.ModelAdmin):
     list_display = ['nombre', 'categoria']
 
-@admin.register(AspectoLocativoHigiene)
-class AspectoLocativoHigieneAdmin(admin.ModelAdmin):
-    list_display = ['orden']
+# @admin.register(AspectoLocativoHigiene)
+# class AspectoLocativoHigieneAdmin(admin.ModelAdmin):
+#     list_display = ['orden']
+    
+
+@admin.register(TipoServicio)
+class TipoServicioAdmin(admin.ModelAdmin):
+    list_display = ('nombre',)
+
+@admin.register(Higiene)
+class HigieneAdmin(admin.ModelAdmin):
+    list_display = ('nombre',)
+
+@admin.register(AreaLocativa)
+class AreaLocativaAdmin(admin.ModelAdmin):
+    list_display = ('nombre',)
+
+@admin.register(Producto)
+class ProductoAdmin(admin.ModelAdmin):
+    list_display = (
+        'nombre',
+        'ingrediente_activo',
+        'dosificacion',
+        'fecha_vencimiento',
+        'ultimo_lote'
+    )
+
+@admin.register(OrdenServicio)
+class OrdenServicioAdmin(admin.ModelAdmin):
+    list_display = (
+        'orden_principal',
+        'tipo',
+        'numero_control',
+        'editar_link',
+        'eliminar_link'
+    )
+
+    def add_view(self, request, form_url='', extra_context=None):
+        # Redirige al template personalizado de add
+        return redirect(reverse('ordenes:ordenservicio_add'))
+
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        # Redirige al template personalizado de change
+        return redirect(reverse('ordenes:ordenservicio_change', args=[object_id]))
+
+    def editar_link(self, obj):
+        url = reverse('ordenes:ordenservicio_change', args=[obj.pk])
+        return format_html('<a class="button" href="{}">Editar</a>', url)
+    editar_link.short_description = 'Editar'
+
+    def eliminar_link(self, obj):
+        url = reverse('admin:ordenes_ordenservicio_delete', args=[obj.pk])
+        return format_html('<a class="button delete-btn" href="{}">Eliminar</a>', url)
+    eliminar_link.short_description = 'Eliminar'

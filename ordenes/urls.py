@@ -8,4 +8,6 @@ urlpatterns = [
     path('ordenlocativos/<int:pk>/change/', views.ordenlocativos_change, name='ordenlocativos_change'),
     path('api/zones/<int:tipo_id>/', views.api_zones_by_tipo, name='api_zones_by_tipo'),
     path('api/areas/<int:zone_id>/', views.api_areas_by_zone, name='api_areas_by_zone'),
+    path('ordenservicio/add/', views.ordenservicio_add, name='ordenservicio_add'),
+    path('ordenservicio/<int:pk>/change/', views.ordenservicio_change, name='ordenservicio_change'),
 ]

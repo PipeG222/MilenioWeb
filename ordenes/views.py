@@ -1,8 +1,8 @@
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
-from .models import Material, OrdenLocativos, OrdenLocativoZona, OrdenLocativoArea, MaterialUso ,TipoEmpresa , Zona ,Area
-from .forms import OrdenLocativosForm
+from .models import AreaLocativa, EspecieUso, Higiene, HigieneUso, Material, OrdenLocativos, OrdenLocativoZona, OrdenLocativoArea, MaterialUso, OrdenServicio, Plaga, Producto ,TipoEmpresa , Zona ,Area
+from .forms import OrdenLocativosForm, OrdenServicioForm
 from decimal import Decimal
 
 def ordenlocativos_add(request):
@@ -190,3 +190,138 @@ def api_areas_by_zone(request, zone_id):
     """
     areas = list(Area.objects.filter(zona_id=zone_id).values('id','nombre'))
     return JsonResponse({'areas': areas})
+
+def ordenservicio_add(request):
+    """
+    Vista para crear una nueva OrdenServicio.
+    Gestiona:
+      - Formulario principal (OrdenServicioForm)
+      - Productos → MaterialUso
+      - Higiene → HigieneUso (sí/no)
+      - Especies → EspecieUso (alto/medio/bajo)
+      - Áreas locativas → M2M radio sí/no
+    """
+    if request.method == 'POST':
+        form = OrdenServicioForm(request.POST, request.FILES)
+        if form.is_valid():
+            orden_servicio = form.save()
+
+            # 1) Productos → MaterialUso
+            MaterialUso.objects.filter(orden_servicio=orden_servicio).delete()
+            for pid in request.POST.getlist('productos'):
+                try:
+                    prod = Producto.objects.get(pk=int(pid))
+                except (ValueError, Producto.DoesNotExist):
+                    continue
+                qty = request.POST.get(f'cantidad_{pid}', '').strip()
+                if not qty:
+                    continue
+                try:
+                    cantidad = float(qty)
+                except ValueError:
+                    continue
+                MaterialUso.objects.create(
+                    orden_servicio=orden_servicio,
+                    material=prod,
+                    cantidad=cantidad
+                )
+
+            # 2) Higiene → HygieneUso (sí/no)
+            # Borramos usos previos y creamos sólo los "sí"
+            HigieneUso.objects.filter(orden_servicio=orden_servicio).delete()
+            for h in Higiene.objects.all():
+                val = request.POST.get(f'higiene_{h.id}')
+                if val == 'si':
+                    HigieneUso.objects.create(
+                        orden_servicio=orden_servicio,
+                        higiene=h
+                    )
+
+            # 3) Especies → EspecieUso (alto/medio/bajo)
+            EspecieUso.objects.filter(orden_servicio=orden_servicio).delete()
+            for p in Plaga.objects.filter(activa=True):
+                if request.POST.get(f'especie_{p.id}_check'):
+                    nivel = request.POST.get(f'especie_{p.id}_nivel')
+                    if nivel in ('alto', 'medio', 'bajo'):
+                        EspecieUso.objects.create(
+                            orden_servicio=orden_servicio,
+                            plaga=p,
+                            nivel=nivel
+                        )
+
+            # 4) Áreas locativas → M2M radio sí/no
+            seleccionadas = []
+            for a in AreaLocativa.objects.all():
+                if request.POST.get(f'area_{a.id}') == 'si':
+                    seleccionadas.append(a.pk)
+            orden_servicio.areaslocativas.set(seleccionadas)
+
+            return redirect(reverse('ordenes:ordenservicio_change', args=[orden_servicio.pk]))
+        # else: formulariode inválido; caerá al render de abajo mostrando errores
+
+    else:
+        form = OrdenServicioForm()
+
+    # Preparamos datos para el template
+
+    niveles = ['alto', 'medio', 'bajo']
+
+    higiene_levels = []
+    for h in Higiene.objects.all():
+        higiene_levels.append({
+            'obj': h,
+            'sel': request.POST.get(f'higiene_{h.id}') if request.method == 'POST' else None
+        })
+
+    especies = []
+    for p in Plaga.objects.filter(activa=True):
+        especies.append({
+            'obj':   p,
+            'check': request.POST.get(f'especie_{p.id}_check') if request.method == 'POST' else None,
+            'nivel': request.POST.get(f'especie_{p.id}_nivel') if request.method == 'POST' else None,
+        })
+
+    area_choices = []
+    for a in AreaLocativa.objects.all():
+        area_choices.append({
+            'obj': a,
+            'sel': request.POST.get(f'area_{a.id}') if request.method == 'POST' else None
+        })
+
+    return render(request, 'ordenes/ordenservicio_form.html', {
+        'form':           form,
+        'niveles':        niveles,
+        'higiene_levels': higiene_levels,
+        'especies':       especies,
+        'area_choices':   area_choices,
+        'title':          'Añadir Orden de Servicio',
+    })
+def ordenservicio_change(request, pk):
+    obj = get_object_or_404(OrdenServicio, pk=pk)
+    if request.method == 'POST':
+        form = OrdenServicioForm(request.POST, request.FILES, instance=obj)
+        if form.is_valid():
+            obj = form.save()
+            # similar material usage processing
+            MaterialUso.objects.filter(orden_servicio=obj).delete()
+            for pid in request.POST.getlist('productos'):
+                try:
+                    mat = Material.objects.get(pk=int(pid))
+                    qty = float(request.POST.get(f'cantidad_{pid}', 0))
+                    MaterialUso.objects.create(orden_servicio=obj, material=mat, cantidad=qty)
+                except Exception:
+                    continue
+            return redirect(reverse('ordenes:ordenservicio_change', args=[obj.pk]))
+    else:
+        form = OrdenServicioForm(instance=obj)
+    usos = MaterialUso.objects.filter(orden_servicio=obj)
+    return render(
+        request,
+        'ordenes/ordenservicio_form.html',
+        {
+            'form': form,
+            'obj': obj,
+            'usos': usos,
+            'title': 'Editar Orden de Servicio'
+        }
+    )
