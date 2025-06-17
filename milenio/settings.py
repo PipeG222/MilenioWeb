@@ -7,8 +7,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Security
 SECRET_KEY = 'django-insecure-pa2ck$nr*5da^ng(!30)uwx0nd&%jv6#4moon_!$^#(4$&i-4f'
 DEBUG = True
-ALLOWED_HOSTS = ['*']  # Cambia esto en producción
+ALLOWED_HOSTS = ['fumigacionesmilenio.com', 'www.fumigacionesmilenio.com', '127.0.0.1', 'localhost']# Cambia esto en producción
 
+CSRF_TRUSTED_ORIGINS = ['https://fumigacionesmilenio.com', 'http://www.fumigacionesmilenio.com']
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 # Apps
 INSTALLED_APPS = [
     'jazzmin',  
@@ -59,8 +63,12 @@ WSGI_APPLICATION = 'milenio.wsgi.application'
 # Base de datos SQLite por ahora
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'Milenio',  # nombre de la base de datos
+        'USER': '',  # el usuario de postgres que creaste
+        'PASSWORD': '',  # su contraseña
+        'HOST': '74.207.236.92',  # o la IP del servidor si estás fuera
+        'PORT': '5432',
     }
 }
 
@@ -149,7 +157,6 @@ JAZZMIN_SETTINGS = {
 
     "default_icon_parents": "fas fa-folder",
     "default_icon_children": "fas fa-file",
-    "custom_css": "css/jazzmin_custom.css",
 }
 
 JAZZMIN_UI_TWEAKS = {
